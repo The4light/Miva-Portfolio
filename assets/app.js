@@ -1,5 +1,39 @@
 "use strict";
 
+// Calendar dates stay in local time; UTC conversion can shift a deadline by a day.
+function localDateKey(date = new Date()) {
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0"),
+  ].join("-");
+}
+
+function isCalendarDate(value) {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(0);
+  date.setFullYear(year, month - 1, day);
+  date.setHours(0, 0, 0, 0);
+  return localDateKey(date) === value;
+}
+
+function readableDate(value) {
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(0);
+  date.setFullYear(year, month - 1, day);
+  return date.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+}
+
+function dueDateLabel(value, done, today = localDateKey()) {
+  if (!isCalendarDate(value)) return "";
+  const date = readableDate(value);
+  if (done) return `Due ${date} - Completed`;
+  if (value < today) return `Overdue - ${date}`;
+  if (value === today) return `Due today - ${date}`;
+  return `Due ${date}`;
+}
+
 const menu = document.querySelector(".menu-button");
 menu.addEventListener("click", () => {
   const open = menu.getAttribute("aria-expanded") !== "true";
@@ -17,13 +51,15 @@ if (taskForm) {
   try {
     const saved = JSON.parse(localStorage.getItem(key) || "[]");
     if (!Array.isArray(saved)) throw new Error("Invalid saved tasks");
-    tasks = saved.filter(
-      (task) =>
-        task &&
-        typeof task.id === "string" &&
-        typeof task.title === "string" &&
-        typeof task.done === "boolean",
-    );
+    tasks = saved
+      .filter(
+        (task) =>
+          task &&
+          typeof task.id === "string" &&
+          typeof task.title === "string" &&
+          typeof task.done === "boolean",
+      )
+      .map((task) => ({ ...task, dueDate: isCalendarDate(task.dueDate) ? task.dueDate : "" }));
   } catch {
     storageStatus.textContent =
       "Saved tasks could not be loaded. You can still use the planner during this visit.";
@@ -68,7 +104,34 @@ if (taskForm) {
         renderTasks();
         document.querySelector("#task-title").focus();
       });
-      row.append(label, remove);
+      const details = document.createElement("div");
+      details.className = "task-details";
+      const dateLabel = document.createElement("label");
+      dateLabel.className = "task-date-label";
+      dateLabel.textContent = "Due date";
+      const dateInput = document.createElement("input");
+      dateInput.type = "date";
+      dateInput.value = task.dueDate || "";
+      dateInput.setAttribute("aria-label", `Due date for ${task.title}`);
+      dateLabel.append(dateInput);
+      const due = document.createElement("span");
+      due.className = "task-due-status";
+      function updateDueStatus() {
+        due.textContent = dueDateLabel(task.dueDate, task.done);
+        due.classList.toggle(
+          "is-overdue",
+          !task.done && isCalendarDate(task.dueDate) && task.dueDate < localDateKey(),
+        );
+      }
+      dateInput.addEventListener("change", () => {
+        if (dateInput.validity.badInput || !dateInput.checkValidity()) return;
+        task.dueDate = isCalendarDate(dateInput.value) ? dateInput.value : "";
+        save();
+        updateDueStatus();
+      });
+      updateDueStatus();
+      details.append(dateLabel, due);
+      row.append(label, details, remove);
       list.append(row);
     });
     const completed = tasks.filter((task) => task.done).length;
@@ -86,7 +149,9 @@ if (taskForm) {
     const title = input.value.trim();
     input.setCustomValidity(title ? "" : "Enter a task before adding it.");
     if (!input.reportValidity()) return;
-    tasks.push({ id: crypto.randomUUID(), title, done: false });
+    if (!taskForm.reportValidity()) return;
+    const dueDate = document.querySelector("#task-due").value;
+    tasks.push({ id: crypto.randomUUID(), title, done: false, dueDate });
     save();
     renderTasks();
     taskForm.reset();
@@ -105,11 +170,23 @@ if (taskForm) {
     }),
   );
   renderTasks();
+  // Refresh deadline labels when returning after midnight without interrupting date edits.
+  let lastDay = localDateKey();
+  function refreshDay() {
+    if (lastDay !== localDateKey()) {
+      lastDay = localDateKey();
+      renderTasks();
+    }
+  }
+  window.addEventListener("focus", refreshDay);
+  setInterval(refreshDay, 60000);
 }
 
 const contact = document.querySelector("#contact-form");
 if (contact) {
-  const fields = ["name", "email", "phone", "message"];
+  const fields = ["name", "email", "phone", "message", "deadline"];
+  const deadline = contact.elements.namedItem("deadline");
+  deadline.min = localDateKey();
   const draft = document.querySelector("#email-draft");
   const status = document.querySelector("#contact-status");
   contact.addEventListener("input", () => {
@@ -125,7 +202,13 @@ if (contact) {
       const input = contact.elements.namedItem(name);
       const value = input.value.trim();
       values[name] = value;
-      let error = value ? "" : "Please complete this field.";
+      let error = value || name === "deadline" ? "" : "Please complete this field.";
+      if (name === "deadline") {
+        deadline.min = localDateKey();
+        if (input.validity.badInput || (value && !isCalendarDate(value)))
+          error = "Enter a valid date.";
+        else if (value && value < localDateKey()) error = "Choose today or a future date.";
+      }
       if (value && name === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
         error = "Enter a valid email address.";
       if (value && name === "phone" && !/^\d+$/.test(value)) error = "Use digits only (0–9).";
@@ -139,7 +222,7 @@ if (contact) {
       firstInvalid.focus();
       return;
     }
-    const body = `Name: ${values.name}\nEmail: ${values.email}\nPhone: ${values.phone}\n\n${values.message}`;
+    const body = `Name: ${values.name}\nEmail: ${values.email}\nPhone: ${values.phone}\nRequested deadline: ${values.deadline ? readableDate(values.deadline) : "Not specified"}\n\n${values.message}`;
     draft.href = `mailto:d.ogbonna0705@miva.edu.ng?subject=${encodeURIComponent("Portfolio enquiry from " + values.name)}&body=${encodeURIComponent(body)}`;
     draft.hidden = false;
     status.textContent =

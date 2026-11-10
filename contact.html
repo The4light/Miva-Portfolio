@@ -9,8 +9,8 @@
     />
     <title>Contact | Desire Ogbonna</title>
     <link rel="stylesheet" href="assets/styles.css?v=3" />
-    <link rel="stylesheet" href="assets/studio.css?v=5" />
-    <script src="assets/app.js?v=3" defer></script>
+    <link rel="stylesheet" href="assets/studio.css?v=6" />
+    <script src="assets/app.js?v=4" defer></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
@@ -101,6 +101,18 @@
           />
           <small id="phone-hint">Digits only, including your country code if needed.</small>
           <span class="error" id="phone-error"></span>
+          <label for="deadline">
+            When do you need this by?
+            <span class="small">(optional)</span>
+          </label>
+          <input
+            id="deadline"
+            name="deadline"
+            type="date"
+            aria-describedby="deadline-hint deadline-error"
+          />
+          <small id="deadline-hint">Choose today or a future date, or leave this blank.</small>
+          <span class="error" id="deadline-error"></span>
           <label for="message">Message</label>
           <textarea
             id="message"

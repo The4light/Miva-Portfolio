@@ -951,3 +951,58 @@ audio {
   object-fit: cover;
   object-position: center 20%;
 }
+
+/* Optional deadlines for enquiries and academic tasks. */
+input[type="date"] {
+  color-scheme: dark;
+  min-height: 46px;
+}
+.task-date-field {
+  max-width: 260px;
+}
+.task-date-field small,
+#deadline-hint {
+  display: block;
+  margin-top: 6px;
+}
+.task-details {
+  flex: 0 1 185px;
+  min-width: 0;
+}
+.task-row .task-date-label {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+}
+.task-row .task-date-label input {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 4px;
+  padding: 7px;
+  font-size: 12px;
+}
+.task-due-status {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.task-due-status.is-overdue {
+  color: var(--error);
+}
+@media (max-width: 850px) {
+  .task-row {
+    flex-wrap: wrap;
+  }
+  .task-row > label {
+    flex-basis: calc(100% - 90px);
+  }
+  .task-details {
+    order: 3;
+    flex-basis: 100%;
+  }
+  .task-row .task-date-label input {
+    max-width: 220px;
+  }
+}

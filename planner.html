@@ -9,8 +9,8 @@
     />
     <title>Academic planner | Desire Ogbonna</title>
     <link rel="stylesheet" href="assets/styles.css?v=3" />
-    <link rel="stylesheet" href="assets/studio.css?v=5" />
-    <script src="assets/app.js?v=3" defer></script>
+    <link rel="stylesheet" href="assets/studio.css?v=6" />
+    <script src="assets/app.js?v=4" defer></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
@@ -62,6 +62,14 @@
                 Add task
                 <span aria-hidden="true">+</span>
               </button>
+            </div>
+            <div class="task-date-field">
+              <label for="task-due">
+                Due date
+                <span class="small">(optional)</span>
+              </label>
+              <input id="task-due" name="dueDate" type="date" aria-describedby="task-due-hint" />
+              <small id="task-due-hint">Add a date to keep a deadline in view.</small>
             </div>
           </form>
           <div class="task-toolbar">
