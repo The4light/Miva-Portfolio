@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Desire Ogbonna, Computer Science student at MIVA Open University. Academic portfolio, projects and study planner."
+    />
+    <title>Project demos | Desire Ogbonna</title>
+    <link rel="stylesheet" href="assets/styles.css?v=3" />
+    <link rel="stylesheet" href="assets/studio.css?v=5" />
+    <script src="assets/app.js?v=3" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="index.html?v=3">
+        <span class="monogram">
+          do
+          <span>.</span>
+        </span>
+        <span>
+          DESIRE OGBONNA
+          <small>STUDENT PORTFOLIO</small>
+        </span>
+      </a>
+      <button class="menu-button" aria-expanded="false" aria-controls="navigation">Menu</button>
+      <nav id="navigation" aria-label="Main navigation">
+        <a href="index.html?v=3">Home</a>
+        <a href="about.html?v=3">About me</a>
+        <a href="projects.html?v=3">Projects</a>
+        <a href="planner.html?v=3">Academic planner</a>
+        <a href="contact.html?v=3">Contact</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="page-heading">
+        <p class="eyebrow">PROJECT LAB</p>
+        <h1>Small tools. Real practice.</h1>
+        <p class="lead">
+          Interactive examples of JavaScript forms, functions, arrays, and dynamic content.
+        </p>
+      </section>
+      <section class="demo-grid section">
+        <article id="grades" class="surface">
+          <p class="eyebrow">01 / CALCULATOR</p>
+          <h2>Grade average</h2>
+          <p>Enter three equally weighted assessment scores from 0 to 100.</p>
+          <form id="grade-form">
+            <label for="score-1">Assessment 1</label>
+            <input id="score-1" type="number" min="0" max="100" step="0.01" required />
+            <label for="score-2">Assessment 2</label>
+            <input id="score-2" type="number" min="0" max="100" step="0.01" required />
+            <label for="score-3">Assessment 3</label>
+            <input id="score-3" type="number" min="0" max="100" step="0.01" required />
+            <button class="button" type="submit">Calculate average</button>
+            <p id="grade-result" role="status"></p>
+          </form>
+          <p class="small">
+            Practice tool only. The 50% target is illustrative, not an official university grading
+            policy.
+          </p>
+        </article>
+        <article id="cards" class="surface">
+          <p class="eyebrow">02 / REVISION DECK</p>
+          <h2>Web foundations</h2>
+          <p id="card-count" class="muted"></p>
+          <h3 id="card-question"></h3>
+          <p id="card-answer" hidden></p>
+          <div class="actions">
+            <button id="reveal" class="button">Reveal answer</button>
+            <button id="next-card" class="secondary">Next card →</button>
+          </div>
+        </article>
+      </section>
+    </main>
+    <footer>
+      <a class="footer-name" href="index.html?v=3">
+        Desire Ogbonna
+        <span>Learning. Building. Moving forward.</span>
+      </a>
+      <p>
+        Computer Science · MIVA Open University
+        <br />
+        © 2026 Desire Ogbonna
+      </p>
+      <a href="contact.html?v=3">
+        Let’s connect
+        <span aria-hidden="true">↗</span>
+      </a>
+    </footer>
+  </body>
+</html>

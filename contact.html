@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Desire Ogbonna, Computer Science student at MIVA Open University. Academic portfolio, projects and study planner."
+    />
+    <title>Contact | Desire Ogbonna</title>
+    <link rel="stylesheet" href="assets/styles.css?v=3" />
+    <link rel="stylesheet" href="assets/studio.css?v=5" />
+    <script src="assets/app.js?v=3" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="index.html?v=3">
+        <span class="monogram">
+          do
+          <span>.</span>
+        </span>
+        <span>
+          DESIRE OGBONNA
+          <small>STUDENT PORTFOLIO</small>
+        </span>
+      </a>
+      <button class="menu-button" aria-expanded="false" aria-controls="navigation">Menu</button>
+      <nav id="navigation" aria-label="Main navigation">
+        <a href="index.html?v=3">Home</a>
+        <a href="about.html?v=3">About me</a>
+        <a href="projects.html?v=3">Projects</a>
+        <a href="planner.html?v=3">Academic planner</a>
+        <a href="contact.html?v=3" aria-current="page">Contact</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="page-heading">
+        <p class="eyebrow">04 / GET IN TOUCH</p>
+        <h1>
+          Good things start
+          <br />
+          with a conversation.
+        </h1>
+        <p class="lead">
+          Have a question about my work or an idea to share? I’d be happy to hear from you.
+        </p>
+      </section>
+      <section class="contact-layout section">
+        <aside>
+          <h2>Let’s connect.</h2>
+          <p>For coursework, project conversations, or simply saying hello.</p>
+          <a class="contact-email" href="mailto:d.ogbonna0705@miva.edu.ng">
+            d.ogbonna0705@miva.edu.ng ↗
+          </a>
+          <p class="eyebrow contact-school">
+            MIVA OPEN UNIVERSITY
+            <br />
+            COMPUTER SCIENCE
+          </p>
+        </aside>
+        <form id="contact-form" class="surface" novalidate>
+          <p class="small">
+            This form checks your message, then lets you open it in your email app. It does not send
+            messages automatically.
+          </p>
+          <div class="form-grid">
+            <div>
+              <label for="name">Name</label>
+              <input
+                id="name"
+                name="name"
+                autocomplete="name"
+                required
+                aria-describedby="name-error"
+              />
+              <span class="error" id="name-error"></span>
+            </div>
+            <div>
+              <label for="email">Email address</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                aria-describedby="email-error"
+              />
+              <span class="error" id="email-error"></span>
+            </div>
+          </div>
+          <label for="phone">Phone number</label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            inputmode="numeric"
+            autocomplete="tel"
+            required
+            aria-describedby="phone-hint phone-error"
+          />
+          <small id="phone-hint">Digits only, including your country code if needed.</small>
+          <span class="error" id="phone-error"></span>
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            required
+            aria-describedby="message-error"
+          ></textarea>
+          <span class="error" id="message-error"></span>
+          <button class="button" type="submit">Check message →</button>
+          <p id="contact-status" role="status" aria-live="polite"></p>
+          <a id="email-draft" class="text-link" hidden>Open email draft ↗</a>
+        </form>
+      </section>
+    </main>
+    <footer>
+      <a class="footer-name" href="index.html?v=3">
+        Desire Ogbonna
+        <span>Learning. Building. Moving forward.</span>
+      </a>
+      <p>
+        Computer Science · MIVA Open University
+        <br />
+        © 2026 Desire Ogbonna
+      </p>
+      <a href="contact.html?v=3">
+        Let’s connect
+        <span aria-hidden="true">↗</span>
+      </a>
+    </footer>
+  </body>
+</html>
